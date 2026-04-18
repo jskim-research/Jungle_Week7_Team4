@@ -226,11 +226,6 @@ void FRenderCollector::CollectWorldWithFrustum(UWorld* World, const FFrustum& Vi
 			continue;
 		}
 
-		if (Actor->IsA<ASpotLightActor>())
-		{
-			CollectSpotLightCommand(static_cast<const ASpotLightActor*>(Actor), ShowFlags, RenderBus);
-		}
-
 		for (UPrimitiveComponent* Primitive : Actor->GetPrimitiveComponents())
 		{
 			if (Primitive == nullptr || !Primitive->IsVisible())
