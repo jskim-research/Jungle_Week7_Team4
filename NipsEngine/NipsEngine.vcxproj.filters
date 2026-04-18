@@ -145,6 +145,9 @@
     <Filter Include="Source\Engine\Component\Movement\PostProcess\Light">
       <UniqueIdentifier>{f4549eb7-0fb9-4d85-b0b6-15b046011043}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Engine\Component\Light">
+      <UniqueIdentifier>{e184a9e6-dc3c-4d16-bfc1-fdb38f9dc7ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\Common.hlsl">
@@ -651,7 +654,18 @@
     <ClCompile Include="Source\Engine\Serialization\JsonReader.h" />
     <ClCompile Include="Source\Engine\Serialization\JsonWriter.cpp" />
     <ClCompile Include="Source\Engine\Serialization\JsonReader.cpp" />
-    <ClCompile Include="Source\Engine\Component\Light\LightComponent.cpp" />
+    <ClCompile Include="Source\Engine\Component\Light\LightComponent.cpp">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Component\Light\AmbientLightComponent.cpp">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Component\Light\DirectionalLightComponent.cpp">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Engine\Component\Light\SpotLightComponent.cpp">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Editor\EditorEngine.h">
@@ -1257,6 +1271,17 @@
     <ClInclude Include="Source\Engine\Serialization\Archive.h" />
     <ClInclude Include="Source\Engine\Serialization\MemoryWriter.h" />
     <ClInclude Include="Source\Engine\Serialization\JsonWriter.h" />
-    <ClInclude Include="Source\Engine\Component\Light\LightComponent.h" />
+    <ClInclude Include="Source\Engine\Component\Light\LightComponent.h">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Component\Light\AmbientLightComponent.h">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Component\Light\DirectionalLightComponent.h">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Engine\Component\Light\SpotLightComponent.h">
+      <Filter>Source\Engine\Component\Light</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
