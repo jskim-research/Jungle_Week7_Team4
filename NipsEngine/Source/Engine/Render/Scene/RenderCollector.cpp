@@ -802,18 +802,3 @@ void FRenderCollector::CollectOBBCommand(UPrimitiveComponent* PrimitiveComponent
 	const FOBB Box = FOBB::FromAABB(AABB, PrimitiveComponent->GetWorldMatrix());
 	CollectOBBCommand(Box, FColor::Green(), RenderBus);
 }
-
-void FRenderCollector::CollectSpotLightCommand(const ASpotLightActor* SpotlightActor, const FShowFlags& ShowFlags, FRenderBus& RenderBus)
-{
-	if (!ShowFlags.bBoundingVolume) return;
-
-	FRenderCommand Cmd = {};
-	Cmd.Type = ERenderCommandType::DebugSpotlight;
-	Cmd.Constants.SpotLight.Position = SpotlightActor->GetActorLocation();
-	Cmd.Constants.SpotLight.Direction = SpotlightActor->GetActorForward();
-	Cmd.Constants.SpotLight.InnerAngle = 12.0f;
-	Cmd.Constants.SpotLight.OuterAngle = SpotlightActor->GetAngle();
-	Cmd.Constants.SpotLight.Range = SpotlightActor->GetRange();
-	Cmd.Constants.SpotLight.Color = FColor::Yellow();
-	RenderBus.AddCommand(ERenderPass::Editor, Cmd);
-}

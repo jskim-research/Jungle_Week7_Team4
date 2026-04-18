@@ -9,25 +9,6 @@
 #include <format>
 #include <Component/SubUVComponent.h>
 
-namespace
-{
-	constexpr const char* CubeMeshPath = "Asset/Mesh/Cube.obj";
-	constexpr const char* FireballMeshPath = "Asset/Mesh/Sun/sun.obj";
-	constexpr const char* PlaneMeshPath = "Asset/Mesh/Plane.obj";
-}
-
-DEFINE_CLASS(ACubeActor, AActor)
-REGISTER_FACTORY(ACubeActor)
-
-DEFINE_CLASS(ASphereActor, AActor)
-REGISTER_FACTORY(ASphereActor)
-
-DEFINE_CLASS(APlaneActor, AActor)
-REGISTER_FACTORY(APlaneActor)
-
-DEFINE_CLASS(AAttachTestActor, AActor) 
-REGISTER_FACTORY(AAttachTestActor)
-
 DEFINE_CLASS(ASceneActor, AActor) 
 REGISTER_FACTORY(ASceneActor)
 
@@ -48,88 +29,6 @@ REGISTER_FACTORY(ADecalActor)
 
 DEFINE_CLASS(ASpotLightActor, AActor)
 REGISTER_FACTORY(ASpotLightActor)
-
-void ACubeActor::InitDefaultComponents()
-{
-	auto* Cube = AddComponent<UStaticMeshComponent>();
-	Cube->SetStaticMesh(FResourceManager::Get().LoadStaticMesh(CubeMeshPath));
-	SetRootComponent(Cube);
-
-	// Text
-	UTextRenderComponent* Text = AddComponent<UTextRenderComponent>();
-	Text->SetFont(FName("Default"));
-	Text->AttachToComponent(Cube);
-	Text->SetText("UUID: " + std::to_string(GetUUID()));
-	Text->SetTransient(true);
-	Text->SetEditorOnly(true);
-	Text->SetRelativeLocation(FVector(0.0f, 0.0f, 1.0f));
-}
-
-void ASphereActor::InitDefaultComponents()
-{
-	auto* Sphere = AddComponent<UStaticMeshComponent>();
-	//Sphere->SetStaticMesh(FResourceManager::Get().LoadStaticMesh(SphereMeshPath));
-	SetRootComponent(Sphere);
-
-	UTextRenderComponent* Text = AddComponent<UTextRenderComponent>();
-	Text->SetFont(FName("Default"));
-	Text->AttachToComponent(Sphere);
-	Text->SetText("UUID: " + std::to_string(GetUUID()));
-	Text->SetTransient(true);
-	Text->SetEditorOnly(true);
-	Text->SetRelativeLocation(FVector(0.0f, 0.0f, 1.0f));
-}
-
-void APlaneActor::InitDefaultComponents()
-{
-	auto* Plane = AddComponent<UStaticMeshComponent>();
-	Plane->SetStaticMesh(FResourceManager::Get().LoadStaticMesh(PlaneMeshPath));
-	SetRootComponent(Plane);
-
-	UTextRenderComponent* Text = AddComponent<UTextRenderComponent>();
-	Text->SetFont(FName("Default"));
-	Text->SetText(std::format("UUID: {}", GetUUID()));
-	Text->SetTransient(true);
-	Text->SetEditorOnly(true);
-	Text->AttachToComponent(Plane);
-	Text->SetRelativeLocation(FVector(0.0f, 0.0f, 1.0f));
-}
-
-void AAttachTestActor::InitDefaultComponents()
-{
-	// Root: Cube
-	auto* Cube = AddComponent<UStaticMeshComponent>();
-	Cube->SetStaticMesh(FResourceManager::Get().LoadStaticMesh(CubeMeshPath));
-	SetRootComponent(Cube);
-
-	// Grouping node for spheres
-	auto* Primitives = AddComponent<USceneComponent>();
-	Primitives->AttachToComponent(Cube);
-
-	// 4 Spheres in a square pattern
-	constexpr float Offset = 2.0f;
-	const FVector Positions[4] = {
-		{ -Offset, -Offset, 0.0f },
-		{  Offset, -Offset, 0.0f },
-		{  Offset,  Offset, 0.0f },
-		{ -Offset,  Offset, 0.0f },
-	};
-	for (int i = 0; i < 4; ++i)
-	{
-		auto* Sphere = AddComponent<UStaticMeshComponent>();
-		//Sphere->SetStaticMesh(FResourceManager::Get().LoadStaticMesh(SphereMeshPath));
-		Sphere->AttachToComponent(Primitives);
-		Sphere->SetRelativeLocation(Positions[i]);
-	}
-
-	// Text attached directly to Root
-	auto* Text = AddComponent<UTextRenderComponent>();
-	Text->AttachToComponent(Cube);
-	Text->SetText("UUID: " + std::to_string(GetUUID()));
-	Text->SetTransient(true);
-	Text->SetEditorOnly(true);
-	Text->SetRelativeLocation(FVector(0.0f, 0.0f, 1.5f));
-}
 
 void ASceneActor::InitDefaultComponents()
 {

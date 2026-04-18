@@ -5,42 +5,6 @@
 class UTextRenderComponent;
 class UDecalComponent;
 
-class ACubeActor : public AActor
-{
-public:
-	DECLARE_CLASS(ACubeActor, AActor)
-	ACubeActor() = default;
-
-	void InitDefaultComponents();
-};
-
-class ASphereActor : public AActor
-{
-public:
-	DECLARE_CLASS(ASphereActor, AActor)
-	ASphereActor() = default;
-
-	void InitDefaultComponents();
-};
-
-class APlaneActor : public AActor
-{
-public:
-	DECLARE_CLASS(APlaneActor, AActor)
-	APlaneActor() = default;
-
-	void InitDefaultComponents();
-};
-
-class AAttachTestActor : public AActor
-{
-public:
-	DECLARE_CLASS(AAttachTestActor, AActor)
-	AAttachTestActor() = default;
-
-	void InitDefaultComponents();
-};
-
 class ASceneActor : public AActor
 {
 public:
@@ -95,24 +59,34 @@ public:
 	void InitDefaultComponents();
 };
 
+class ADirectionalLightActor : public AActor {
+public:
+	DECLARE_CLASS(ADirectionalLightActor, AActor)
+	ADirectionalLightActor() = default;
+
+	void InitDefaultComponents();
+};
+
+class AAmbientLightActor : public AActor {
+public:
+	DECLARE_CLASS(AAmbientLightActor, AActor)
+	AAmbientLightActor() = default;
+
+	void InitDefaultComponents();
+};
+
+class APointLightActor : public AActor {
+public:
+	DECLARE_CLASS(APointLightActor, AActor)
+	APointLightActor() = default;
+
+	void InitDefaultComponents();
+};
+
 class ASpotLightActor : public AActor {
 public:
 	DECLARE_CLASS(ASpotLightActor, AActor)
 	ASpotLightActor() = default;
 
 	void InitDefaultComponents();
-
-	void Tick(float DeltaTime) override;
-
-	const float GetRange() const { return Range; }
-	void SetRange(float InRange) { Range = InRange; }
-
-	const float GetAngle() const { return Angle; }
-	void SetAngle(float InAngle) { Angle = InAngle; }
-
-private:
-	UDecalComponent* DecalComp = nullptr;
-
-	float Range = 10.0f;
-	float Angle = 30.0f;
 };

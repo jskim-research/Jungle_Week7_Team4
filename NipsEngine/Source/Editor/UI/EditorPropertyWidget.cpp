@@ -665,35 +665,6 @@ void FEditorPropertyWidget::RenderActorProperties(AActor* PrimaryActor, const TA
 			ImGui::EndCombo();
 		}
 	}
-
-	if (PrimaryActor->IsA<ASpotLightActor>())
-	{
-		ASpotLightActor* SpotActor = static_cast<ASpotLightActor*>(PrimaryActor);
-		ImGui::Separator();
-		ImGui::Text("Spot Light Properties");
-		float Range = SpotActor->GetRange();
-		if (ImGui::DragFloat("Range", &Range, 0.1f, 0.0f, 1000.0f))
-		{
-			for (AActor* Actor : SelectedActors)
-			{
-				if (ASpotLightActor* SA = dynamic_cast<ASpotLightActor*>(Actor))
-				{
-					SA->SetRange(Range);
-				}
-			}
-		}
-		float Angle = SpotActor->GetAngle();
-		if (ImGui::DragFloat("Angle", &Angle, 0.1f, 0.0f, 180.0f))
-		{
-			for (AActor* Actor : SelectedActors)
-			{
-				if (ASpotLightActor* SA = dynamic_cast<ASpotLightActor*>(Actor))
-				{
-					SA->SetAngle(Angle);
-				}
-			}
-		}
-	}
 }
 
 void FEditorPropertyWidget::RenderComponentProperties()
