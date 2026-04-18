@@ -94,6 +94,33 @@ void FEditorControlWidget::Render(float DeltaTime)
 				Actor->SetActorLocation(CurSpawnPoint);
 				break;
 			}
+			case 6: // Directional Light
+			{
+				ADirectionalLightActor* Actor = World->SpawnActor<ADirectionalLightActor>();
+				Actor->InitDefaultComponents();
+				Actor->SetActorLocation(CurSpawnPoint);
+				break;
+			}
+			case 7: // Ambient Light
+			{
+				AAmbientLightActor* Actor = World->SpawnActor<AAmbientLightActor>();
+				Actor->InitDefaultComponents();
+				Actor->SetActorLocation(CurSpawnPoint);
+				break;
+			}
+			case 8: // Point Light
+			{
+				APointLightActor* Actor = World->SpawnActor<APointLightActor>();
+				Actor->InitDefaultComponents();
+				Actor->SetActorLocation(CurSpawnPoint);
+				break;
+			}
+			case 9: // Spot Light
+			{
+				ASpotLightActor* Actor = World->SpawnActor<ASpotLightActor>();
+				Actor->InitDefaultComponents();
+				Actor->SetActorLocation(CurSpawnPoint);
+				break;
 			}
 		}
 		NumberOfSpawnedActors = 1;

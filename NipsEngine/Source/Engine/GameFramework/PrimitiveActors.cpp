@@ -5,27 +5,40 @@
 #include "Component/TextRenderComponent.h"
 #include "Component/HeightFogComponent.h"
 #include "Component/Movement/RotatingMovementComponent.h"
+#include "Component/Light/DirectionalLightComponent.h"
+#include "Component/Light/AmbientLightComponent.h"
+#include "Component/Light/PointLightComponent.h"
+#include "Component/Light/SpotLightComponent.h"
 #include "Core/ResourceManager.h"
 #include <format>
 #include <Component/SubUVComponent.h>
 
-DEFINE_CLASS(ASceneActor, AActor) 
+DEFINE_CLASS(ASceneActor, AActor)
 REGISTER_FACTORY(ASceneActor)
 
-DEFINE_CLASS(AStaticMeshActor, AActor) 
+DEFINE_CLASS(AStaticMeshActor, AActor)
 REGISTER_FACTORY(AStaticMeshActor)
 
-DEFINE_CLASS(ASubUVActor, AActor) 
+DEFINE_CLASS(ASubUVActor, AActor)
 REGISTER_FACTORY(ASubUVActor)
 
-DEFINE_CLASS(ATextRenderActor, AActor) 
+DEFINE_CLASS(ATextRenderActor, AActor)
 REGISTER_FACTORY(ATextRenderActor)
 
-DEFINE_CLASS(ABillboardActor, AActor) 
+DEFINE_CLASS(ABillboardActor, AActor)
 REGISTER_FACTORY(ABillboardActor)
 
 DEFINE_CLASS(ADecalActor, AActor)
 REGISTER_FACTORY(ADecalActor)
+
+DEFINE_CLASS(ADirectionalLightActor, AActor)
+REGISTER_FACTORY(ADirectionalLightActor)
+
+DEFINE_CLASS(AAmbientLightActor, AActor)
+REGISTER_FACTORY(AAmbientLightActor)
+
+DEFINE_CLASS(APointLightActor, AActor)
+REGISTER_FACTORY(APointLightActor)
 
 DEFINE_CLASS(ASpotLightActor, AActor)
 REGISTER_FACTORY(ASpotLightActor)
@@ -62,7 +75,7 @@ void ASubUVActor::InitDefaultComponents()
 	SubUV->SetParticle(FName("Explosion"));
 	SubUV->SetSpriteSize(2.0f, 2.0f);
 	SubUV->SetFrameRate(30.f);
-    
+
     auto* Text = AddComponent<UTextRenderComponent>();
     Text->AttachToComponent(SubUV);
     Text->SetFont(FName("Default"));
@@ -80,7 +93,7 @@ void ATextRenderActor::InitDefaultComponents()
 	SetRootComponent(Text);
 	Text->SetFont(FName("Default"));
 	Text->SetText("TextRender");
-    
+
     auto* TextUUID = AddComponent<UTextRenderComponent>();
     TextUUID->AttachToComponent(Text);
     TextUUID->SetFont(FName("Default"));
@@ -93,7 +106,7 @@ void ATextRenderActor::InitDefaultComponents()
 }
 
 void ABillboardActor::InitDefaultComponents()
-{	
+{
 	UBillboardComponent* Billboard = AddComponent<UBillboardComponent>();
 	SetRootComponent(Billboard);
 	Billboard->SetTextureName(("Asset/Texture/Pawn_64x.png"));
@@ -130,33 +143,26 @@ void ADecalActor::InitDefaultComponents()
 	TextUUID->SetRelativeLocation(FVector(0.0f, 0.0f, Extent.Y * 0.6f));
 }
 
-void ASpotLightActor::InitDefaultComponents() {
-	UBillboardComponent* Billboard = AddComponent<UBillboardComponent>();
-    Billboard->SetTextureName(("Asset/Texture/SpotLight_64x.png"));
-	Billboard->SetEditorOnly(true);
-	SetRootComponent(Billboard);
-
-	UDecalComponent* Decal = AddComponent<UDecalComponent>();
-	Decal->AttachToComponent(Billboard);
-	Decal->SetRelativeLocation(FVector(10, 0, 0));
-	DecalComp = Decal;
-
-	UMaterialInterface* DecalMat = FResourceManager::Get().GetMaterialInterface("DecalMat_SpotLight");
-	if (DecalMat == nullptr)
-	{
-		UMaterial* DecalOriginMat = FResourceManager::Get().GetMaterial("DecalMat");
-		DecalMat = FResourceManager::Get().CreateMaterialInstance(DecalOriginMat->GetFilePath() + "_SpotLight", DecalOriginMat);
-	}
-	Decal->SetMaterial(DecalMat);
-	DecalMat->SetTexture("DiffuseMap", FResourceManager::Get().LoadTexture("Asset/Texture/DecalFakeSpotlight.png"));
+void ADirectionalLightActor::InitDefaultComponents()
+{
+	UDirectionalLightComponent* DirLight = AddComponent<UDirectionalLightComponent>();
+	SetRootComponent(DirLight);
 }
 
-void ASpotLightActor::Tick(float DeltaTime)
+void AAmbientLightActor::InitDefaultComponents()
 {
-	AActor::Tick(DeltaTime);
+	UAmbientLightComponent* AmbientLight = AddComponent<UAmbientLightComponent>();
+	SetRootComponent(AmbientLight);
+}
 
-	if (DecalComp)
-	{
-		DecalComp->SetSize(FVector(Range, Range, Range));
-	}
+void APointLightActor::InitDefaultComponents()
+{
+	UPointLightComponent* PointLight = AddComponent<UPointLightComponent>();
+	SetRootComponent(PointLight);
+}
+
+void ASpotLightActor::InitDefaultComponents()
+{
+	USpotLightComponent* SpotLight = AddComponent<USpotLightComponent>();
+	SetRootComponent(SpotLight);
 }
