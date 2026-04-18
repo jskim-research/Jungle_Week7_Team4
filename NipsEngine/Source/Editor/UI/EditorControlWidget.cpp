@@ -52,75 +52,76 @@ void FEditorControlWidget::Render(float DeltaTime)
 		{
 			switch (SelectedPrimitiveType)
 			{
-			case 0: // Scene (Empty)
-			{
-				ASceneActor* Actor = World->SpawnActor<ASceneActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 1: // StaticMesh
-			{
-				AStaticMeshActor* Actor = World->SpawnActor<AStaticMeshActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 2: // TextRender
-			{
-				ATextRenderActor* Actor = World->SpawnActor<ATextRenderActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 3: // SubUV
-			{
-				ASubUVActor* Actor = World->SpawnActor<ASubUVActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 4: // Billboard
-			{
-				ABillboardActor* Actor = World->SpawnActor<ABillboardActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 5: // Decal
-			{
-				ADecalActor* Actor = World->SpawnActor<ADecalActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 6: // Directional Light
-			{
-				ADirectionalLightActor* Actor = World->SpawnActor<ADirectionalLightActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 7: // Ambient Light
-			{
-				AAmbientLightActor* Actor = World->SpawnActor<AAmbientLightActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 8: // Point Light
-			{
-				APointLightActor* Actor = World->SpawnActor<APointLightActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
-			}
-			case 9: // Spot Light
-			{
-				ASpotLightActor* Actor = World->SpawnActor<ASpotLightActor>();
-				Actor->InitDefaultComponents();
-				Actor->SetActorLocation(CurSpawnPoint);
-				break;
+				case 0: // Scene (Empty)
+				{
+					ASceneActor* Actor = World->SpawnActor<ASceneActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 1: // StaticMesh
+				{
+					AStaticMeshActor* Actor = World->SpawnActor<AStaticMeshActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 2: // TextRender
+				{
+					ATextRenderActor* Actor = World->SpawnActor<ATextRenderActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 3: // SubUV
+				{
+					ASubUVActor* Actor = World->SpawnActor<ASubUVActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 4: // Billboard
+				{
+					ABillboardActor* Actor = World->SpawnActor<ABillboardActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 5: // Decal
+				{
+					ADecalActor* Actor = World->SpawnActor<ADecalActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 6: // Directional Light
+				{
+					ADirectionalLightActor* Actor = World->SpawnActor<ADirectionalLightActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 7: // Ambient Light
+				{
+					AAmbientLightActor* Actor = World->SpawnActor<AAmbientLightActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 8: // Point Light
+				{
+					APointLightActor* Actor = World->SpawnActor<APointLightActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
+				case 9: // Spot Light
+				{
+					ASpotLightActor* Actor = World->SpawnActor<ASpotLightActor>();
+					Actor->InitDefaultComponents();
+					Actor->SetActorLocation(CurSpawnPoint);
+					break;
+				}
 			}
 		}
 		NumberOfSpawnedActors = 1;
