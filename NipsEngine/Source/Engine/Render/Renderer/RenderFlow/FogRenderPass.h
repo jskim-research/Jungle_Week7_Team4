@@ -11,4 +11,7 @@ private:
     bool Begin(const FRenderPassContext* Context) override;
     bool DrawCommand(const FRenderPassContext* Context) override;
     bool End(const FRenderPassContext* Context) override;
+
+private:
+    bool bSkipFogDraw = false;
 };

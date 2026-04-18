@@ -18,6 +18,7 @@
 #include "Object/FName.h"
 #include <functional>
 #include "Component/HeightFogComponent.h"
+#include "Component/Light/LightComponent.h"
 #include "Selection/SelectionManager.h"
 
 #define SEPARATOR(); ImGui::Spacing(); ImGui::Spacing(); ImGui::Separator(); ImGui::Spacing(); ImGui::Spacing();
@@ -186,6 +187,14 @@ static const TArray<FComponentMenuEntry> ComponentMenuRegistry = {
 			return Comp;
 		}
 	},
+    {
+        "Light Component",
+      [](AActor* Actor) -> UActorComponent*
+      {
+          ULightComponent* Comp = Actor->AddComponent<ULightComponent>();
+          return Comp;
+      }
+    },
 };
 
 void FEditorPropertyWidget::Initialize(UEditorEngine* InEditorEngine)

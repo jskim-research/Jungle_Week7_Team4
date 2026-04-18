@@ -16,8 +16,6 @@ struct FRenderResources
     FConstantBuffer LightPassConstantBuffer;		// b7
     FConstantBuffer FogPassConstantBuffer;		// b9
     FConstantBuffer FXAAConstantBuffer;                     // b10
-
-	FStructuredBuffer LightStructuredBuffer;	// t3
 };
 
 enum class ESamplerType

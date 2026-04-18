@@ -52,14 +52,15 @@ public:
     const FEditorViewportState& GetState() const { return State; }
     void SetState(const FEditorViewportState& InState) { State = InState; }
 
-	FRenderTargetSet GetViewportRenderTargets() const;
+	FRenderTargetSet* GetViewportRenderTargets() const;
 
 	// 최종 출력 (임시용)
 	ID3D11ShaderResourceView* GetOutSRV() const 
 	{ 
 		if (!RenderTargetSet)
             return nullptr;
-		return RenderTargetSet->SceneColorSRV;
+
+		return RenderTargetSet->FinalSRV;
 	}
 
 	void SetRenderTargetSet(FRenderTargetSet* InRenderTargetSet) { RenderTargetSet = InRenderTargetSet; }

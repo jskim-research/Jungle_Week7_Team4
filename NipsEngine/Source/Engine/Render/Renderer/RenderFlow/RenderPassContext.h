@@ -2,7 +2,6 @@
 #include <d3d11.h>
 #include "Core/CoreMinimal.h"
 
-struct FPassRenderState;
 struct FRenderTargetSet;
 struct FRenderResources;
 class FRenderBus;
@@ -13,8 +12,7 @@ class FLineBatcher;
 struct FRenderPassContext
 {
     const FRenderBus* RenderBus = nullptr;
-    const FRenderTargetSet* RenderTargets = nullptr;
-    const FPassRenderState* RenderState = nullptr;
+    FRenderTargetSet* RenderTargets = nullptr;
     ID3D11Device* Device = nullptr;
     ID3D11DeviceContext* DeviceContext = nullptr;
     FRenderResources* RenderResources = nullptr;
@@ -22,7 +20,4 @@ struct FRenderPassContext
     FSubUVBatcher* SubUVBatcher = nullptr;
     FLineBatcher* GridLineBatcher = nullptr;
     FLineBatcher* EditorLineBatcher = nullptr;
-
-	ID3D11RenderTargetView* FinalRTV = nullptr;
-    ID3D11ShaderResourceView* FinalSRV = nullptr;
 };

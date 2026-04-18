@@ -67,6 +67,8 @@ struct FViewportRenderResource
     {
         RenderTargetSet.SceneColorRTV = ColorRTV.Get();
         RenderTargetSet.SceneColorSRV = ColorSRV.Get();
+        RenderTargetSet.FinalRTV = ColorRTV.Get();
+        RenderTargetSet.FinalSRV = ColorSRV.Get();
 
         RenderTargetSet.SceneNormalRTV = NormalRTV.Get();
         RenderTargetSet.SceneNormalSRV = NormalSRV.Get();
@@ -94,21 +96,13 @@ struct FViewportRenderResource
 
 };
 
-// 패스별 Batcher 바인딩 — Clear → Collect → Flush 패턴
+// 패스별 Batcher 바인딩 — Clear → Collect 패턴
 struct FPassBatcherBinding
 {
 	std::function<void()> Clear;
 	std::function<void(const FRenderCommand&, const FRenderBus&)> Collect;
-	std::function<void(ERenderPass, const FRenderBus&, ID3D11DeviceContext*)> Flush;
 
-	explicit operator bool() const { return Flush != nullptr; }
-};
-
-// 패스별 기본 렌더 상태 — Single Source of Truth
-struct FPassRenderState
-{
-	UShader*                 Shader         = nullptr; // nullptr → batcher가 자체 셰이더 사용
-	bool                     bWireframeAware = false;  // Wireframe 모드 시 래스터라이저 전환
+	explicit operator bool() const { return Clear != nullptr && Collect != nullptr; }
 };
 
 class FRenderer
@@ -121,12 +115,12 @@ public:
 	void PrepareBatchers(const FRenderBus& InRenderBus);
 	void BeginFrame();
 	// Viewport 로부터 RTV, SRV 등 정보를 받아서 세팅
-    void BeginViewportFrame(FRenderTargetSet InRenderTargetSet);
+    void BeginViewportFrame(FRenderTargetSet* InRenderTargetSet);
 	void Render(const FRenderBus& InRenderBus);
 	void EndFrame();
 	void UseBackBufferRenderTargets();
 	
-    void UseViewportRenderTargets(FRenderTargetSet InRenderTargetSet);
+    void UseViewportRenderTargets(FRenderTargetSet* InRenderTargetSet);
 	void InvalidateSceneFinalTargets();
 
 	FD3DDevice& GetFD3DDevice() { return Device; }
@@ -142,26 +136,12 @@ public:
     void ReleaseViewportResource(FSceneViewport* VP, int32 Index);
 
 private:
-	void InitializePassRenderStates();
 	void InitializePassBatchers();
-
-	void ApplyPassRenderState(ERenderPass Pass, ID3D11DeviceContext* Context, EViewMode ViewMode);
-	void BindShaderByType(const FRenderCommand& InCmd, ID3D11DeviceContext* Context, ERenderCommandType& LastCommandType);
-
-	void DrawCommand(ID3D11DeviceContext* InDeviceContext, const FRenderCommand& InCommand);
-	void DrawPostProcessOutline(ID3D11DeviceContext* InDeviceContext);
 	void UpdateFrameBuffer(ID3D11DeviceContext* Context, const FRenderBus& InRenderBus);
-
-	// 기본 패스 실행기 — SetupRenderState + DrawCommand 루프
-    void ExecuteDefaultPass(ERenderPass Pass, const TArray<FRenderCommand>& Commands, const FRenderBus& Bus,
-                            ID3D11DeviceContext* Context);
-
-	// LineBatcher Flush 공통 — EditorConstants 업데이트 + EditorShader 바인딩
-	void FlushLineBatcher(FLineBatcher& Batcher, ERenderPass Pass, const FRenderBus& Bus, ID3D11DeviceContext* Context);
 
 private:
 	FD3DDevice Device;
-	FRenderTargetSet CurrentRenderTargets;
+	FRenderTargetSet* CurrentRenderTargets = nullptr;
 	FRenderResources Resources;
 	FLineBatcher   EditorLineBatcher;
 	FLineBatcher   GridLineBatcher;
@@ -176,9 +156,7 @@ private:
 	const TArray<FRenderCommand>& GetAlignedCommands(ERenderPass Pass, const TArray<FRenderCommand>& Commands);
 	TArray<FRenderCommand> SortedCommandBuffer;  // 재할당 방지용 멤버 버퍼
 
-	FPassRenderState    PassRenderStates[(uint32)ERenderPass::MAX];
 	FPassBatcherBinding PassBatchers[(uint32)ERenderPass::MAX];
-	UTexture* SubUVCachedTexture = nullptr;
 
 	//	Primitive and Gizmo Input Layout
 	D3D11_INPUT_ELEMENT_DESC PrimitiveInputLayout[2] =

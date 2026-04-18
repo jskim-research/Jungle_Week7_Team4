@@ -17,26 +17,49 @@ bool FFogRenderPass::Release()
 
 bool FFogRenderPass::Begin(const FRenderPassContext* Context)
 {
+    bSkipFogDraw = false;
+
     const TArray<FRenderCommand>& Commands = Context->RenderBus->GetCommands(ERenderPass::Fog);
     if (Commands.empty())
     {
         // Fog command가 없으면 이전 패스 결과를 그대로 넘긴다.
         OutSRV = PrevPassSRV;
         OutRTV = PrevPassRTV;
+        bSkipFogDraw = true;
         return true;
     }
 
-    if (!Context->RenderTargets->SceneLightRTV || !Context->RenderTargets->SceneLightSRV ||
-        !Context->RenderTargets->SceneFogRTV || !Context->RenderTargets->SceneFogSRV)
+    ID3D11ShaderResourceView* FallbackSRV = PrevPassSRV ? PrevPassSRV : Context->RenderTargets->SceneColorSRV;
+    ID3D11RenderTargetView* FallbackRTV = PrevPassRTV ? PrevPassRTV : Context->RenderTargets->SceneColorRTV;
+
+    const bool bHasFogTargets =
+        Context->RenderTargets->SceneFogRTV &&
+        Context->RenderTargets->SceneFogSRV;
+    const bool bHasFogInputs =
+        Context->RenderTargets->SceneColorSRV &&
+        Context->RenderTargets->SceneNormalSRV &&
+        Context->RenderTargets->SceneDepthSRV &&
+        Context->RenderTargets->SceneWorldPosSRV &&
+        FallbackSRV &&
+        FallbackRTV;
+
+    if (!bHasFogTargets || !bHasFogInputs)
     {
-        return false;
+        OutSRV = FallbackSRV;
+        OutRTV = FallbackRTV;
+        bSkipFogDraw = true;
+        return true;
     }
 
     UShader* FogPassShader = FResourceManager::Get().GetShader("Shaders/Multipass/FogPass.hlsl");
-    if (FogPassShader)
+    if (!FogPassShader)
     {
-        FogPassShader->Bind(Context->DeviceContext);
+        OutSRV = FallbackSRV;
+        OutRTV = FallbackRTV;
+        bSkipFogDraw = true;
+        return true;
     }
+    FogPassShader->Bind(Context->DeviceContext);
 
     ID3D11DepthStencilState* DSState = FResourceManager::Get().GetOrCreateDepthStencilState(EDepthStencilType::StencilWrite);
     Context->DeviceContext->OMSetDepthStencilState(DSState, 1);
@@ -59,6 +82,11 @@ bool FFogRenderPass::Begin(const FRenderPassContext* Context)
 
 bool FFogRenderPass::DrawCommand(const FRenderPassContext* Context)
 {
+    if (bSkipFogDraw)
+    {
+        return true;
+    }
+
     const TArray<FRenderCommand>& Commands = Context->RenderBus->GetCommands(ERenderPass::Fog);
     if (Commands.empty())
     {
@@ -93,6 +121,11 @@ bool FFogRenderPass::DrawCommand(const FRenderPassContext* Context)
 
 bool FFogRenderPass::End(const FRenderPassContext* Context)
 {
+    if (bSkipFogDraw)
+    {
+        return true;
+    }
+
     ID3D11ShaderResourceView* nullSRVs[] = { nullptr, nullptr, nullptr, nullptr, nullptr };
     Context->DeviceContext->PSSetShaderResources(0, 5, nullSRVs);
     return true;

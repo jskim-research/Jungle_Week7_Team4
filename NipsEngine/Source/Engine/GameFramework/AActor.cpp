@@ -1,6 +1,7 @@
 ﻿#include "GameFramework/AActor.h"
 #include "Component/PrimitiveComponent.h"
 #include "Component/ActorComponent.h"
+#include "Component/Light/LightComponent.h"
 #include "Component/Movement/MovementComponent.h"
 #include "GameFramework/World.h"
 
@@ -289,14 +290,18 @@ void AActor::NotifyComponentRegistered(UActorComponent* Component)
         return;
     }
 
-    UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(Component);
-    if (Primitive == nullptr)
+	// TODO : 임시 코드 이 함수의 로직들은 Component에 가상 함수로 들어가고 각각의 컴포넌트가 자신의 시스템에 Register해야함.
+    if (UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(Component))
     {
-        return;
+        OwningWorld->GetSpatialIndex().RegisterPrimitive(Primitive);
+        OwningWorld->GetSpatialIndex().FlushDirtyBounds();   
     }
+    
+	if (ULightComponent* Light = Cast<ULightComponent>(Component))
+	{
+	    // TODO : Renderer에 Light 추가
 
-    OwningWorld->GetSpatialIndex().RegisterPrimitive(Primitive);
-    OwningWorld->GetSpatialIndex().FlushDirtyBounds();
+	}
 }
 
 void AActor::NotifyComponentUnregistered(UActorComponent* Component)
@@ -306,13 +311,17 @@ void AActor::NotifyComponentUnregistered(UActorComponent* Component)
         return;
     }
 
-    UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(Component);
-    if (Primitive == nullptr)
+	// TODO : 임시 코드 이 함수의 로직들은 Component에 가상 함수로 들어가고 각각의 컴포넌트가 자신의 시스템에 Unregister해야함.
+    if (UPrimitiveComponent* Primitive = Cast<UPrimitiveComponent>(Component))
     {
-        return;
+        OwningWorld->GetSpatialIndex().UnregisterPrimitive(Primitive);
     }
 
-    OwningWorld->GetSpatialIndex().UnregisterPrimitive(Primitive);
+	if (ULightComponent* Light = Cast<ULightComponent>(Component))
+	{
+	    // TODO : Renderer에 Light Unregister 해야함.
+	}
+
 }
 
 void AActor::MarkPrimitiveComponentsDirty()

@@ -30,6 +30,10 @@ struct FRenderTargetSet
 	ID3D11ShaderResourceView* SelectionMaskSRV = nullptr;
     ID3D11DepthStencilView*   DepthStencilView = nullptr;
     ID3D11ShaderResourceView* SceneDepthSRV = nullptr;
+
+	ID3D11RenderTargetView* FinalRTV = nullptr;
+    ID3D11ShaderResourceView* FinalSRV = nullptr;
+
 	float Width = 0.0f;
 	float Height = 0.0f;
 
@@ -58,6 +62,7 @@ private:
 	TComPtr<ID3D11Debug> DebugDevice;
 
 	D3D11_VIEWPORT ViewportInfo = {};
+	mutable FRenderTargetSet BackBufferRenderTargets;
 
 	const float ClearColor[4] = { 0.25f, 0.25f, 0.25f, 1.0f };
 	const float ClearNormal[4] = { 0.25f, 0.25f, 0.25f, 0.f };
@@ -91,7 +96,7 @@ public:
 
 	// 단일 Viewport 개선 중 임시 함수
 	// 입력 RenderTarget 에 대한 BeginFrame 설정 수행
-	void BeginViewportFrame(FRenderTargetSet& InRenderTargetSet);
+	void BeginViewportFrame(const FRenderTargetSet* InRenderTargetSet);
 
 	void OnResizeViewport(int width, int height);
 
@@ -110,6 +115,6 @@ public:
 	ID3D11DepthStencilView* GetDepthStencilView() const { return DepthStencilView.Get(); }
 	float GetViewportWidth() const { return ViewportInfo.Width; }
 	float GetViewportHeight() const { return ViewportInfo.Height; }
-	FRenderTargetSet GetBackBufferRenderTargets() const;
+    FRenderTargetSet* GetBackBufferRenderTargets() const;
 };
 

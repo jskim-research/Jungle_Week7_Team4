@@ -53,11 +53,11 @@ bool FSceneViewport::OnChar(uint32 Codepoint)
 }
 
 
-FRenderTargetSet FSceneViewport::GetViewportRenderTargets() const
+FRenderTargetSet* FSceneViewport::GetViewportRenderTargets() const
 {
     if (RenderTargetSet)
-        return *RenderTargetSet;
+        return RenderTargetSet;
 
 	// 자원 참조 없을 시 Default 반환
-    return FRenderTargetSet();
+    return nullptr;
 }
