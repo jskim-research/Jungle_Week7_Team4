@@ -7,6 +7,38 @@
 #include <variant>
 
 /**
+ * Flag 에 따른 Material 관리를 위한 정보
+ */
+enum class EShadingModel : uint8
+{
+	LIGHTING_MODEL_NONE = 0,
+    LIGHTING_MODEL_GOURAUD = 1,
+    LIGHTING_MODEL_LAMBERT = 2,
+    LIGHTING_MODEL_PHONG = 3,
+};
+
+struct FPermutationKey
+{
+    EShadingModel ShadingModel = EShadingModel::LIGHTING_MODEL_NONE;
+
+	uint32 GetKey() const
+	{
+        uint32 Key = 0;
+
+		Key |= (uint32)(ShadingModel);
+		// Flag 추가 시 bit 연산을 통해 추가 고려
+		// 예시
+		// Key |= (uint32)(NewFlag) << 8;
+        return Key;
+	}
+
+	FString GetKeyName() const
+	{
+        return std::to_string(GetKey());
+	}
+};
+
+/**
  * @brief MTL 파일의 머테리얼 데이터를 표현하는 구조체.
  * Obj .mtl 포맷 기준으로 정의했습니다.
  */
@@ -107,7 +139,10 @@ public:
 	FMaterial MaterialData;
 	TMap<FString, FMaterialParamValue> MaterialParams;
 
-	UShader* Shader = nullptr;
+	// Shader 가 없으면 새로 로드해야하는데 기존 ApplyParam 등이 const 함수이므로 내부에서 ShaderMap 수정 불가
+	// 논리적 상수성을 지킨다는 전제 하에 mutable 로 선언하여 기존 인터페이스 수정 최소화
+    mutable TMap<uint32, UShader*> ShaderMap;
+    FPermutationKey ShaderKey;
 
 	ESamplerType SamplerType = ESamplerType::EST_Linear;
 	EDepthStencilType DepthStencilType = EDepthStencilType::Default;
@@ -120,11 +155,14 @@ public:
 	const FString& GetFilePath() const override { return FilePath; }
 	FString& GetFilePathRef() override { return FilePath; }
 
+	// 아무 Flag 없는 Shader 세팅
 	void SetShader(UShader* InShader)
 	{
-		Shader = InShader;
-		if (!Shader) return;
+        if (InShader)
+	        ShaderMap[0] = InShader;
 	}
+
+	UShader* GetShader(uint32 InKey) const;
 
 	void SetParam(const FString& Name, const FMaterialParamValue& Value)
 	{

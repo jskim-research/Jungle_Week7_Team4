@@ -100,6 +100,10 @@ public:
 	UShader* GetShader(const FString& FilePath) const;
 	bool LoadShader(const FString& FilePath, const FString& VSEntryPoint, const FString& PSEntryPoint,
                     const D3D11_INPUT_ELEMENT_DESC* InputElements, UINT InputElementCount, const D3D_SHADER_MACRO* Defines);
+
+	bool LoadShaderUsingKey(const FString& FilePath, FPermutationKey PermutationKey, const FString& VSEntryPoint, const FString& PSEntryPoint,
+                    const D3D11_INPUT_ELEMENT_DESC* InputElements, UINT InputElementCount, const D3D_SHADER_MACRO* Defines);
+
     //ID3DBlob* CompileShaderWithDefines(const WCHAR* filename,
     //                                   const D3D_SHADER_MACRO* defines,
     //                                   const char* entryPoint,

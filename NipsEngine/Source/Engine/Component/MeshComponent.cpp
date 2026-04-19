@@ -92,7 +92,7 @@ UMaterialInterface* UMeshComponent::GetMaterial(int32 SlotIndex) const
 	{
 		return nullptr;
 	}
-	
+
 	return Materials[SlotIndex];
 }
 

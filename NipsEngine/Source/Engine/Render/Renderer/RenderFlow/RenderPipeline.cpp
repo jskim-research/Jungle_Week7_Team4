@@ -11,9 +11,13 @@
 #include "EditorRenderPass.h"
 #include "DepthLessRenderPass.h"
 #include "PostProcessOutlineRenderPass.h"
+#include "UberLitPass.h"
 
 bool FRenderPipeline::Initialize()
 {
+    UberLitRenderPass = std::make_shared<FUberLitRenderPass>();
+    UberLitRenderPass->Initialize();
+
     OpaqueRenderPass = std::make_shared<FOpaqueRenderPass>();
     OpaqueRenderPass->Initialize();
 
@@ -58,7 +62,9 @@ bool FRenderPipeline::Initialize()
 	 * 각 Render Pass 는 자신의 출력 SRV/RTV 를 다음 패스로 넘긴다.
 	 * 마지막 패스가 남긴 OutSRV/OutRTV 가 RenderTargets.FinalSRV/FinalRTV 가 된다.
 	 */
-	RenderPasses.push_back(OpaqueRenderPass);
+    RenderPasses.push_back(UberLitRenderPass);
+
+	// RenderPasses.push_back(OpaqueRenderPass);
     RenderPasses.push_back(DecalRenderPass);
     //RenderPasses.push_back(LightRenderPass);
 

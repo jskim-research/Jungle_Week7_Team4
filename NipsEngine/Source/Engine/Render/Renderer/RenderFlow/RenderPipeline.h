@@ -2,6 +2,7 @@
 #include "Core/CoreMinimal.h"
 #include "RenderPassContext.h"
 
+class FUberLitRenderPass;
 class FFXAARenderPass;
 class FFogRenderPass;
 class FLightRenderPass;
@@ -27,6 +28,7 @@ public:
 	ID3D11ShaderResourceView* GetOutSRV() const { return OutSRV; }
 
 private:
+    std::shared_ptr<FUberLitRenderPass> UberLitRenderPass;
     std::shared_ptr<FOpaqueRenderPass> OpaqueRenderPass;
     std::shared_ptr<FDecalRenderPass> DecalRenderPass;
     std::shared_ptr<FFogRenderPass> FogRenderPass;

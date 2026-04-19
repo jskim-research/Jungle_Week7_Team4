@@ -742,6 +742,80 @@ bool FResourceManager::LoadShader(const FString& FilePath, const FString& VSEntr
 	return true;
 }
 
+bool FResourceManager::LoadShaderUsingKey(const FString& FilePath, FPermutationKey PermutationKey, const FString& VSEntryPoint, const FString& PSEntryPoint, const D3D11_INPUT_ELEMENT_DESC* InputElements, UINT InputElementCount, const D3D_SHADER_MACRO* Defines)
+{
+    UShader* Shader = UObjectManager::Get().CreateObject<UShader>();
+    Shader->FilePath = FilePath;
+
+    TComPtr<ID3DBlob> VSBlob;
+    TComPtr<ID3DBlob> PSBlob;
+    TComPtr<ID3DBlob> ErrorBlob;
+
+    HRESULT hr = D3DCompileFromFile(FPaths::ToWide(FilePath).c_str(), Defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
+                                    VSEntryPoint.c_str(), "vs_5_0", 0, 0, &VSBlob, &ErrorBlob);
+    if (FAILED(hr))
+    {
+        if (ErrorBlob)
+        {
+            UE_LOG("Vertex Shader Compile Error (%s): %s", FilePath.c_str(), static_cast<const char*>(ErrorBlob->GetBufferPointer()));
+        }
+        else
+        {
+            UE_LOG("Failed to compile vertex shader: %s", FilePath.c_str());
+        }
+        return false;
+    }
+    Shader->ReflectShader(VSBlob.Get(), CachedDevice.Get());
+    ErrorBlob.Reset();
+
+    hr = D3DCompileFromFile(FPaths::ToWide(FilePath).c_str(), Defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
+                            PSEntryPoint.c_str(), "ps_5_0", 0, 0, &PSBlob, &ErrorBlob);
+    if (FAILED(hr))
+    {
+        if (ErrorBlob)
+        {
+            UE_LOG("Pixel Shader Compile Error (%s): %s", FilePath.c_str(), static_cast<const char*>(ErrorBlob->GetBufferPointer()));
+        }
+        else
+        {
+            UE_LOG("Failed to compile pixel shader: %s", FilePath.c_str());
+        }
+        return false;
+    }
+    Shader->ReflectShader(PSBlob.Get(), CachedDevice.Get());
+
+    hr = CachedDevice->CreateVertexShader(VSBlob->GetBufferPointer(), VSBlob->GetBufferSize(), nullptr,
+                                          &Shader->ShaderData.VS);
+    if (FAILED(hr))
+    {
+        UE_LOG("Failed to create vertex shader: %s", FilePath.c_str());
+        return false;
+    }
+
+    hr = CachedDevice->CreatePixelShader(PSBlob->GetBufferPointer(), PSBlob->GetBufferSize(), nullptr,
+                                         &Shader->ShaderData.PS);
+    if (FAILED(hr))
+    {
+        UE_LOG("Failed to create pixel shader: %s", FilePath.c_str());
+        return false;
+    }
+
+    if (InputElements != nullptr && InputElementCount > 0)
+    {
+        hr = CachedDevice->CreateInputLayout(InputElements, InputElementCount, VSBlob->GetBufferPointer(),
+                                             VSBlob->GetBufferSize(), &Shader->ShaderData.InputLayout);
+        if (FAILED(hr))
+        {
+            UE_LOG("Failed to create input layout: %s", FilePath.c_str());
+            return false;
+        }
+    }
+
+    Shaders[FilePath + "_" + PermutationKey.GetKeyName()] = Shader;
+
+    return true;
+}
+
 //ID3DBlob* CompileShaderWithDefines(const WCHAR* filename,
 //                                   const D3D_SHADER_MACRO* defines,
 //                                   const char* entryPoint,
@@ -931,7 +1005,7 @@ bool FResourceManager::SerializeMaterial(const FString& MatFilePath, const UMate
 	using json::JSON;
 	JSON Root = JSON::Make(JSON::Class::Object);
 	Root["Name"] = Material->Name;
-	Root["Shader"] = Material->Shader ? Material->Shader->FilePath : "";
+    Root["Shader"] = Material->GetShader(0) ? Material->GetShader(0)->FilePath : "";
 
 	JSON Params = JSON::Make(JSON::Class::Array);
 	for (const auto& [ParamName, ParamValue] : Material->MaterialParams)
