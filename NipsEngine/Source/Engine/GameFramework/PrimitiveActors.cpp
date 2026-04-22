@@ -49,6 +49,9 @@ REGISTER_FACTORY(ASpotLightActor)
 DEFINE_CLASS(ASkyAtmosphereActor, AActor)
 REGISTER_FACTORY(ASkyAtmosphereActor)
 
+DEFINE_CLASS(AHeightFogActor, AActor)
+REGISTER_FACTORY(AHeightFogActor)
+
 void ASceneActor::InitDefaultComponents()
 {
 	auto SceneRoot = AddComponent<USceneComponent>();
