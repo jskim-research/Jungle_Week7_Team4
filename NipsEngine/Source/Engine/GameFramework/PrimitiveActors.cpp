@@ -10,6 +10,7 @@
 #include "Component/Light/AmbientLightComponent.h"
 #include "Component/Light/PointLightComponent.h"
 #include "Component/Light/SpotLightComponent.h"
+#include "Component/HeightFogComponent.h"
 #include "Component/BillboardComponent.h"
 #include "Component/SubUVComponent.h"
 #include "Core/ResourceManager.h"
@@ -130,4 +131,10 @@ void ASkyAtmosphereActor::InitDefaultComponents()
 {
 	USkyAtmosphereComponent* SkyAtmosphere = AddComponent<USkyAtmosphereComponent>();
 	SetRootComponent(SkyAtmosphere);
+}
+
+void AHeightFogActor::InitDefaultComponents()
+{
+	UHeightFogComponent* HeightFog = AddComponent<UHeightFogComponent>();
+	SetRootComponent(HeightFog);
 }

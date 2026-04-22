@@ -261,7 +261,7 @@ static const TArray<FComponentMenuEntry> ComponentMenuRegistry = {
 		{
 			return Actor->AddComponent<USkyAtmosphereComponent>();
 		}
-	}
+	},
 };
 
 void FEditorPropertyWidget::Initialize(UEditorEngine* InEditorEngine)

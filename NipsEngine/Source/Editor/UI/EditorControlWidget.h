@@ -10,7 +10,7 @@ public:
 	virtual void Render(float DeltaTime) override;
 
 private:
-    const char* PrimitiveTypes[11] = {
+    const char* PrimitiveTypes[12] = {
         "Scene",
         "StaticMesh",
         "TextRender",
@@ -21,7 +21,8 @@ private:
         "Ambient Light",
         "Point Light",
         "Spot Light",
-        "Sky Atmosphere"
+        "Sky Atmosphere",
+        "Height Fog"
     };
     int32 SelectedPrimitiveType = 0;
 	int32 NumberOfSpawnedActors = 1;
