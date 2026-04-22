@@ -478,14 +478,14 @@ void FEditorMaterialWidget::RenderMaterialProperties()
 			}
 			break;
 		case EMaterialParamType::Vector3:
-			if (ImGui::DragFloat3(ParamName.c_str(), &std::get<FVector>(ParamValue.Value).X, 0.01f))
+			if (ImGui::ColorEdit3(ParamName.c_str(), &std::get<FVector>(ParamValue.Value).X))
 			{
 				SelectedMaterialPtr->SetParam(ParamName, ParamValue);
 				PersistMaterialAsset(SelectedMaterialPtr);
 			}
 			break;
 		case EMaterialParamType::Vector4:
-			if (ImGui::DragFloat4(ParamName.c_str(), &std::get<FVector4>(ParamValue.Value).X, 0.01f))
+			if (ImGui::ColorEdit4(ParamName.c_str(), &std::get<FVector4>(ParamValue.Value).X))
 			{
 				SelectedMaterialPtr->SetParam(ParamName, ParamValue);
 				PersistMaterialAsset(SelectedMaterialPtr);

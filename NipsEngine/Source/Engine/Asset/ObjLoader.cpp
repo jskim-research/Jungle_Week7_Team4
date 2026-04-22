@@ -136,18 +136,6 @@ FStaticMesh* FObjLoader::Load(const FString& Path, const FStaticMeshLoadOptions&
 		return nullptr;
 	}
 	
-	/* 단위 큐브의 크기로 변경 및 AABB 기준 가운데로 고정 */
-	if (LoadOptions.bNormalizeToUnitCube)
-	{
-		UE_LOG("[ObjLoader] NormalizeToUnitCube enabled: %s", Path.c_str());
-		NormalizeRawPositionsToUnitCube(RawData);
-	}
-	else
-	{
-		/* 중점 좌표를 AABB 기준 가운데로 고정 */
-		NormalizeRawPositionsToUnitCube(RawData);
-	}
-	
 	/* Build Cooked Data from Raw Data */
 	if (!BuildStaticMesh(Path, StaticMesh, RawData))
 	{
