@@ -135,6 +135,7 @@ void FEditorControlWidget::Render(float DeltaTime)
 					Actor->InitDefaultComponents();
 					Actor->SetActorLocation(CurSpawnPoint);
 					break;
+				}
 			}
 		}
 		NumberOfSpawnedActors = 1;

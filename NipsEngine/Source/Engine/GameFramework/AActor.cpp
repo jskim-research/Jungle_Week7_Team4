@@ -33,6 +33,9 @@ static USceneComponent* DuplicateSubTree(
     if (!OriginalComp)
         return nullptr;
 
+    if (OriginalComp->IsEditorOnly() || OriginalComp->IsVisualizationComponent())
+        return nullptr;
+
     // 현재 노드(부모) 복제
     USceneComponent* DuplicatedComp = Cast<USceneComponent>(OriginalComp->Duplicate());
     if (!DuplicatedComp)
@@ -89,6 +92,9 @@ void AActor::PostDuplicate(UObject* Original)
 
         // 씬 컴포넌트는 처리했으므로 건너뜁니다.
         if (OriginalComp->IsA<USceneComponent>())
+            continue;
+
+        if (OriginalComp->IsEditorOnly() || OriginalComp->IsVisualizationComponent())
             continue;
 
         UActorComponent* DuplicatedComp = Cast<UActorComponent>(OriginalComp->Duplicate());
