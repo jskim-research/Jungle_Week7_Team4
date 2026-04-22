@@ -1,0 +1,10 @@
+{
+        "LightingModel" : "Lambert",
+        "Name" : "Asset/Mesh/ContentExamples/ContentExamples_Inst_7.matinst",
+        "OverridedParams" : [{
+            "Name" : "BaseColor",
+            "Type" : "Vector3",
+            "Value" : [0.565401, 0.565401, 0.565401]
+          }],
+        "Parent" : "UnrealMaterial.098"
+      }

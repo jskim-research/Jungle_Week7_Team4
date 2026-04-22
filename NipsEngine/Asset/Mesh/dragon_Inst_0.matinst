@@ -1,0 +1,26 @@
+{
+        "LightingModel" : "Phong",
+        "Name" : "Asset/Mesh/dragon_Inst_0.matinst",
+        "OverridedParams" : [{
+            "Name" : "DiffuseMap",
+            "Type" : "Texture",
+            "Value" : "Asset\\Texture\\T_ENV_KNFRST_Block_01_BC.png"
+          }, {
+            "Name" : "NormalMap",
+            "Type" : "Texture",
+            "Value" : "Asset\\Texture\\T_ENV_KNFRST_Block_01_N.png"
+          }, {
+            "Name" : "Shininess",
+            "Type" : "Float",
+            "Value" : 255.000000
+          }, {
+            "Name" : "bHasDiffuseMap",
+            "Type" : "Bool",
+            "Value" : true
+          }, {
+            "Name" : "bHasNormalMap",
+            "Type" : "Bool",
+            "Value" : true
+          }],
+        "Parent" : "DefaultWhite"
+      }
