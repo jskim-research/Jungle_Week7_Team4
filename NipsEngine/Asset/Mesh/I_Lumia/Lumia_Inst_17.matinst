@@ -1,0 +1,6 @@
+{
+        "LightingModel" : "Lambert",
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_17.matinst",
+        "OverridedParams" : [],
+        "Parent" : "cloth"
+      }

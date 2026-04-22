@@ -1,13 +1,13 @@
 {
   "ClassName" : "UWorld",
   "Name" : "Scene_01_LightComponents",
-  "NextUUID" : 1239,
+  "NextUUID" : 1307,
   "PerspectiveCamera" : {
     "FOV" : 87.999924,
     "FarClip" : 2000.000000,
-    "Location" : [-2.299038, 2.039748, 2.780916],
+    "Location" : [-1.107699, -2.124873, 2.527350],
     "NearClip" : 0.100000,
-    "Rotation" : [4.596768, 4.688924, -44.524902]
+    "Rotation" : [-2.237396, 2.375332, 43.309765]
   },
   "Primitives" : {
     "1036" : {

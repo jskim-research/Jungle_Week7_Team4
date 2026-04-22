@@ -1,0 +1,10 @@
+{
+        "LightingModel" : "Gouraud",
+        "Name" : "Asset/Mesh/cube_Inst_1.matinst",
+        "OverridedParams" : [{
+            "Name" : "BaseColor",
+            "Type" : "Vector3",
+            "Value" : [0.800000, 0.800000, 0.800000]
+          }],
+        "Parent" : "Material"
+      }

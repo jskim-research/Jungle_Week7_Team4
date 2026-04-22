@@ -1,0 +1,9 @@
+{
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_6.matinst",
+        "OverridedParams" : [{
+            "Name" : "bHasNormalMap",
+            "Type" : "Bool",
+            "Value" : true
+          }],
+        "Parent" : "cloth"
+      }

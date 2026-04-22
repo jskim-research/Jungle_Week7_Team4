@@ -1,0 +1,9 @@
+{
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_12.matinst",
+        "OverridedParams" : [{
+            "Name" : "Shininess",
+            "Type" : "Float",
+            "Value" : 100.000000
+          }],
+        "Parent" : "body"
+      }

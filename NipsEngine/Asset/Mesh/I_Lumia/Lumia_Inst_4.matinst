@@ -1,0 +1,13 @@
+{
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_4.matinst",
+        "OverridedParams" : [{
+            "Name" : "bHasBumpMap",
+            "Type" : "Bool",
+            "Value" : false
+          }, {
+            "Name" : "bHasNormalMap",
+            "Type" : "Bool",
+            "Value" : false
+          }],
+        "Parent" : "cloth"
+      }

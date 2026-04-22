@@ -458,8 +458,8 @@ NipsEngine/Saves/**
 !NipsEngine/Asset/Mesh/**
 
 # 실험용 폴더
-NipsEngine/Asset/Mesh/I_*/
-NipsEngine/Asset/Mesh/I_*/**
+!NipsEngine/Asset/Mesh/I_*/*.matinst
+# NipsEngine/Asset/Mesh/I_*/
 
 NipsEngine/Asset/Mesh/Bin/**
 NipsEngine/Asset/Scene/**

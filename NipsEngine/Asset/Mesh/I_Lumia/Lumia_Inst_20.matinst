@@ -1,0 +1,10 @@
+{
+        "LightingModel" : "Toon",
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_20.matinst",
+        "OverridedParams" : [{
+            "Name" : "EmissiveColor",
+            "Type" : "Vector3",
+            "Value" : [1.000000, 1.000000, 1.000000]
+          }],
+        "Parent" : "eye"
+      }

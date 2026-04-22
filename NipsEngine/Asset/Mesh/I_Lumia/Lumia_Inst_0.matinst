@@ -1,0 +1,13 @@
+{
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_0.matinst",
+        "OverridedParams" : [{
+            "Name" : "Shininess",
+            "Type" : "Float",
+            "Value" : 100.000000
+          }, {
+            "Name" : "bHasNormalMap",
+            "Type" : "Bool",
+            "Value" : false
+          }],
+        "Parent" : "face"
+      }

@@ -1,0 +1,14 @@
+{
+        "LightingModel" : "Lambert",
+        "Name" : "Asset/Mesh/cube_Inst_3.matinst",
+        "OverridedParams" : [{
+            "Name" : "Shininess",
+            "Type" : "Float",
+            "Value" : 255.000000
+          }, {
+            "Name" : "SpecularColor",
+            "Type" : "Vector3",
+            "Value" : [1.000000, 1.000000, 1.000000]
+          }],
+        "Parent" : "Material"
+      }

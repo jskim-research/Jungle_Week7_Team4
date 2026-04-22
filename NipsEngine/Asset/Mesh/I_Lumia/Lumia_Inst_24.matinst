@@ -1,0 +1,6 @@
+{
+        "LightingModel" : "Toon",
+        "Name" : "Asset/Mesh/I_Lumia/Lumia_Inst_24.matinst",
+        "OverridedParams" : [],
+        "Parent" : "body"
+      }
